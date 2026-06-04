@@ -12,15 +12,46 @@ use App\Models\Wishlist;
 class CustomerDashboardController extends Controller
 {
     public function index()
-    {
-        return view('customer.dashboard');
-    }
+{
+    $latestOrder = Order::where(
+        'user_id',
+        Auth::id()
+    )->latest()->first();
 
+    $totalOrder = Order::where(
+        'user_id',
+        Auth::id()
+    )->count();
+
+    $totalWishlist = Wishlist::where(
+        'user_id',
+        Auth::id()
+    )->count();
+
+    $diproses = Order::where(
+        'user_id',
+        Auth::id()
+    )
+    ->where('status','Diproses')
+    ->count();
+
+    $voucher = 3;
+
+    return view(
+        'customer.dashboard',
+        compact(
+            'latestOrder',
+            'totalOrder',
+            'totalWishlist',
+            'diproses',
+            'voucher'
+        )
+    );
+}
     public function products()
-    {
+{
         return view('customer.products');
-    }
-
+}
     public function checkout($id)
 {
     $cart = Cart::findOrFail($id);
@@ -229,7 +260,32 @@ public function clearWishlist()
             'success',
             'Profil berhasil diperbarui'
         );
-
         
     }
+
+    public function cancelOrder($id)
+{
+    $order = \App\Models\Order::findOrFail($id);
+
+    $order->status = 'Dibatalkan';
+    $order->save();
+
+    return back()->with(
+        'success',
+        'Pesanan berhasil dibatalkan.'
+    );
+}
+
+public function receivedOrder($id)
+{
+    $order = \App\Models\Order::findOrFail($id);
+
+    $order->status = 'Selesai';
+    $order->save();
+
+    return back()->with(
+        'success',
+        'Pesanan telah diterima.'
+    );
+}
 }

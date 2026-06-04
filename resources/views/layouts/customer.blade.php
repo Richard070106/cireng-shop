@@ -79,7 +79,7 @@ class="block p-4 rounded-xl hover:bg-white hover:text-red-600 transition">
 <div class="bg-white shadow-md p-6 flex justify-between">
 
 <h2 class="font-bold text-2xl">
-Proudct Wishlist
+Cireng Shop
 </h2>
 
 <div class="flex items-center gap-4">

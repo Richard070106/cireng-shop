@@ -14,6 +14,11 @@ Route::get('/dashboard',
 ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('/orders/cancel/{id}',
+        [CustomerDashboardController::class,'cancelOrder']);
+
+    Route::post('/orders/received/{id}',
+        [CustomerDashboardController::class,'receivedOrder']);
 
     Route::get('/profile',
         [ProfileController::class,'edit'])
@@ -31,10 +36,12 @@ Route::middleware(['auth'])->group(function () {
         [CustomerDashboardController::class,'index']);
 
     Route::get('/products',
-        [CustomerDashboardController::class,'products']);
+        [CustomerDashboardController::class,'products'])
+    ->name('products');
 
     Route::get('/cart',
-        [CustomerDashboardController::class,'cart']);
+        [CustomerDashboardController::class,'cart'])
+    ->name('cart');
 
     Route::get('/orders',
         [CustomerDashboardController::class,'orders']);
@@ -75,5 +82,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/wishlist/clear',
         [CustomerDashboardController::class,'clearWishlist']);
         }); // TUTUP GROUP DI SINI
+    Route::post('/orders/cancel/{id}',
+        [CustomerDashboardController::class,'cancelOrder']);
 
+    Route::post('/orders/received/{id}',
+        [CustomerDashboardController::class,'receivedOrder']);
 require __DIR__.'/auth.php';
